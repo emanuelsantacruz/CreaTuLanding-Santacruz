@@ -1,0 +1,21 @@
+/* Estilos globales */
+body {
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* NavBar customizations */
+.navbar-nav .nav-link {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.cart-widget {
+  cursor: pointer;
+  margin-right: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.cart-widget:hover {
+  transform: scale(1.1);
+}
