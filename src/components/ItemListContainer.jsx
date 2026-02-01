@@ -1,21 +1,37 @@
+import { useState, useEffect } from 'react'
+import { getProducts, getProductsByCategory } from '../data/asyncMock'
+import ItemList from './ItemList'
+import { useParams } from 'react-router-dom'
+
 const ItemListContainer = ({ greeting }) => {
+    const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    const { categoryId } = useParams()
+
+    useEffect(() => {
+        setLoading(true)
+
+        const asyncFunc = categoryId ? getProductsByCategory : getProducts
+
+        asyncFunc(categoryId)
+            .then(response => {
+                setProducts(response)
+            })
+            .catch(error => {
+                console.error(error)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+    }, [categoryId])
+
     return (
-        <div className="container mt-5">
-            <h1 className="text-center mb-4 border-bottom pb-2">LeParfum ARG</h1>
-
-            <div className="alert alert-light text-center mb-5" role="alert">
-                <p className="fs-4 m-0">{greeting}</p>
-            </div>
-
-            <div className="row g-4">
-                <div className="col-12 text-center text-muted">
-                    <div className="p-5 border rounded bg-light">
-                        <p>Proximamente productos aqui!</p>
-                    </div>
-                </div>
-            </div>
+        <div className="container mt-4">
+            <h1 className="text-center mb-4">{greeting}</h1>
+            {loading ? <p className="text-center fs-4">Cargando productos...</p> : <ItemList products={products} />}
         </div>
-    );
-};
+    )
+}
 
-export default ItemListContainer;
+export default ItemListContainer
